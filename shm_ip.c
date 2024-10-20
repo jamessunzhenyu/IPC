@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#include "DLL/dll.h"
 #include "Routing-Table/routing-table.h"
 
 /* Stores IP address in newly created shared memory region corresponding to its key, which is a MAC address. Returns the size of the created shm on success otherwise -1 on failure. */
@@ -27,6 +28,8 @@ int store_IP(const char *mac, const char *ip) {
     void *shm_reg =  mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     if(shm_reg == MAP_FAILED){
         printf("Mapping failed\n");
+        close(shm_fd);
+        //shm_unlink(mac); // need comment out, otherwise impact other processes accessing it
         return -1;
     }
     

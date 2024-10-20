@@ -10,6 +10,12 @@ void display_routing_table(const dll_t *routing_table) {
     printf("Printing routing table\n");
     
     dll_node_t *node = routing_table->head->next;
+    if (node == routing_table->head)
+    {
+        printf("Routing table is empty\n");
+        return;
+    }
+
     while (node != routing_table->head) {
         routing_table_entry_t entry = *((routing_table_entry_t *) node->data);
         printf("Destination IP: %s  Mask: %u Gateway IP: %s  OIF: %s\n", entry.dest, entry.mask, entry.gw, entry.oif);

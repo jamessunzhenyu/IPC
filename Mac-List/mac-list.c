@@ -13,6 +13,12 @@ void display_mac_list(const dll_t *mac_list) {
     printf("Printing MAC list\n");
     
     dll_node_t *node = mac_list->head->next;
+    if (node == mac_list->head)
+    {
+        printf("MAC list table is empty\n");
+        return;
+    }
+
     while (node != mac_list->head) {
         mac_list_entry_t entry = *((mac_list_entry_t *) node->data);
         printf("MAC: %s ", entry.mac);

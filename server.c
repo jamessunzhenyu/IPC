@@ -298,9 +298,11 @@ void update_new_client(int data_socket, LCODE l_code, char *op, sync_msg_t *sync
         sync_msg->op_code = CREATE;
         if (l_code == L3) {
             sprintf(op, "C %s %u %s %s", rt_entry.dest, rt_entry.mask, rt_entry.gw, rt_entry.oif);
+            printf("updating new client with L3 op = %s\n", op);
         }
         else {
             sprintf(op, "C %s", ml_entry.mac);
+            printf("updating new client with L2 op = %s\n", op);
         }
 
         create_sync_message(op, sync_msg, 1);
@@ -394,12 +396,14 @@ int main() {
                 perror("accept");
                 exit(1);
             }
+            printf("One client socket %d connected ...\n", data_socket);
             
             pid_t pid;
             if (read(data_socket, &pid, sizeof(pid_t)) == -1) {
                 perror("read");
                 exit(1);
             }
+            printf("Client process pid = %d\n", pid);
             
             add_to_monitored_fd_set(data_socket);
             add_to_client_pid_set(pid);
@@ -417,6 +421,8 @@ int main() {
                 return 1;
             }
             op[ret] = 0;
+
+            printf("Just input: %s\n", op);
             
             if (!create_sync_message(op, sync_msg, 0)) {
                 // update server's tables

@@ -6,7 +6,7 @@
  to a dummy node. */
 dll_t *init_dll() {
     dll_t *dll = calloc(1, sizeof(dll_t));
-    dll_node_t *node = calloc(1, sizeof(dll_t));
+    dll_node_t *node = calloc(1, sizeof(dll_node_t));
     node->next = node;
     node->prev = node;
     dll->head = node; // empty list consists of only
@@ -47,5 +47,6 @@ void deinit_dll(dll_t *dll) {
         del(dll, node);
         node = next;
     }
+    free(dll->head);
     free(dll);
 }

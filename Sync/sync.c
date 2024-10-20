@@ -70,7 +70,7 @@ void process_sync_mesg(dll_t *dll, sync_msg_t *sync_msg) {
                     node = find_mac(dll, sync_msg->msg_body.mac_list_entry.mac);
                     if (node == dll->head) {
                         printf("Deleted: MAC: %s\n", sync_msg->msg_body.mac_list_entry.mac);
-                        unlink(sync_msg->msg_body.mac_list_entry.mac); // deallocate shared memory region corresponding to this MAC key
+                        shm_unlink(sync_msg->msg_body.mac_list_entry.mac); // deallocate shared memory region corresponding to this MAC key
                     }
                 }
                 break;
